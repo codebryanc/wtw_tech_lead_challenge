@@ -6,6 +6,7 @@ namespace wtw_server.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        // [Properties]
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,11 +14,13 @@ namespace wtw_server.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        // [Constructor]
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
 
+        // [Methods]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

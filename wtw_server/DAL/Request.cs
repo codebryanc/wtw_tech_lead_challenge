@@ -1,8 +1,12 @@
-﻿using DAL.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Entity;
+using DAL.Base.UnitOfWork;
 
 namespace DAL
 {
+    // [Interface]
     public interface IRequest
     {
         Task<IEnumerable<Requests>> GetAllRequestsAsync();
@@ -10,16 +14,19 @@ namespace DAL
 
     public class Request : IRequest
     {
-        private readonly IRequestRepository _requestRepository;
+        // [Properties]
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Request(IRequestRepository requestRepository)
+        // [Constructor]
+        public Request(IUnitOfWork unitOfWork)
         {
-            _requestRepository = requestRepository;
+            _unitOfWork = unitOfWork;
         }
 
+        // [Methods]
         public async Task<IEnumerable<Requests>> GetAllRequestsAsync()
         {
-            return await _requestRepository.GetAllAsync();
+            return await _unitOfWork.Repository<Requests>().GetAllAsync();
         }
     }
 }
