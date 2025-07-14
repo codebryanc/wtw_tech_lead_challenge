@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Entity;
-using DAL;
+﻿using Entity;
 
 namespace BLL
 {
