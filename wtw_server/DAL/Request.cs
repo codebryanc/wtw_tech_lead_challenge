@@ -4,6 +4,7 @@ using System.Text.Json;
 using Entity;
 using Entity.DTOs;
 using DAL.Base.UnitOfWork;
+using DAL.Extensions;
 
 namespace DAL
 {
@@ -39,6 +40,9 @@ namespace DAL
         {
             var query = _unitOfWork.Repository<Requests>().AsQueryable();
 
+            // Filter by valid JSON data first
+            query = query.WhereValidJson();
+
             if (filter.RequestTypeId.HasValue)
                 query = query.Where(r => r.rtyId == filter.RequestTypeId.Value);
 
@@ -51,12 +55,13 @@ namespace DAL
             if (filter.ToDate.HasValue)
                 query = query.Where(r => r.createdAt <= filter.ToDate.Value);
 
+            // Use efficient JSON_VALUE function instead of string contains
             if (!string.IsNullOrEmpty(filter.JsonProperty) && !string.IsNullOrEmpty(filter.JsonValue))
             {
-                query = query.Where(r => r.data != null && r.data.Contains($"\"{filter.JsonProperty}\":\"{filter.JsonValue}\""));
+                query = query.WhereJsonProperty(filter.JsonProperty, filter.JsonValue);
             }
 
-            return await query.ToListAsync();
+            return await query.OrderByCreationDate(true).ToListAsync();
         }
 
         public async Task<Requests> CreateRequestAsync(RequestCreateDto requestDto)
@@ -96,7 +101,9 @@ namespace DAL
         {
             return await _unitOfWork.Repository<Requests>()
                 .AsQueryable()
-                .Where(r => r.data != null && r.data.Contains($"\"{propertyName}\":\"{value}\""))
+                .WhereValidJson()
+                .WhereJsonPropertyContains(propertyName, value)
+                .OrderByCreationDate(true)
                 .ToListAsync();
         }
     }
