@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DAL.Base.Repository
 {
@@ -21,6 +19,22 @@ namespace DAL.Base.Repository
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
+        }
+
+        public virtual async Task<T> AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            return entity;
+        }
+
+        public virtual void Remove(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
+        public virtual IQueryable<T> AsQueryable()
+        {
+            return _dbSet.AsQueryable();
         }
     }
 }

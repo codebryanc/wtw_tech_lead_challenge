@@ -1,4 +1,3 @@
-using System;
 using DAL.Base.Repository;
 
 namespace DAL.Base.UnitOfWork
@@ -8,5 +7,6 @@ namespace DAL.Base.UnitOfWork
     {
         // [Methods]
         IRepository<T> Repository<T>() where T : class;
+        Task<int> SaveChangesAsync();
     }
 }

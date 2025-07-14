@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DAL.Base.Repository
 {
@@ -8,5 +6,8 @@ namespace DAL.Base.Repository
     {
         // [Methods]
         Task<IEnumerable<T>> GetAllAsync();
+        Task<T> AddAsync(T entity);
+        void Remove(T entity);
+        IQueryable<T> AsQueryable();
     }
 }

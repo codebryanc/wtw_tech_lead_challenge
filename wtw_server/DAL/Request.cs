@@ -1,7 +1,8 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 using Entity;
+using Entity.DTOs;
 using DAL.Base.UnitOfWork;
 
 namespace DAL
@@ -10,6 +11,11 @@ namespace DAL
     public interface IRequest
     {
         Task<IEnumerable<Requests>> GetAllRequestsAsync();
+        Task<IEnumerable<Requests>> GetFilteredRequestsAsync(RequestFilterDto filter);
+        Task<Requests> CreateRequestAsync(RequestCreateDto requestDto);
+        Task<Requests?> GetRequestByIdAsync(Guid id);
+        Task<bool> DeleteRequestAsync(Guid id);
+        Task<IEnumerable<Requests>> SearchByJsonPropertyAsync(string propertyName, string value);
     }
 
     public class Request : IRequest
@@ -27,6 +33,71 @@ namespace DAL
         public async Task<IEnumerable<Requests>> GetAllRequestsAsync()
         {
             return await _unitOfWork.Repository<Requests>().GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Requests>> GetFilteredRequestsAsync(RequestFilterDto filter)
+        {
+            var query = _unitOfWork.Repository<Requests>().AsQueryable();
+
+            if (filter.RequestTypeId.HasValue)
+                query = query.Where(r => r.rtyId == filter.RequestTypeId.Value);
+
+            if (filter.RequestStatusId.HasValue)
+                query = query.Where(r => r.resId == filter.RequestStatusId.Value);
+
+            if (filter.FromDate.HasValue)
+                query = query.Where(r => r.createdAt >= filter.FromDate.Value);
+
+            if (filter.ToDate.HasValue)
+                query = query.Where(r => r.createdAt <= filter.ToDate.Value);
+
+            if (!string.IsNullOrEmpty(filter.JsonProperty) && !string.IsNullOrEmpty(filter.JsonValue))
+            {
+                query = query.Where(r => r.data != null && r.data.Contains($"\"{filter.JsonProperty}\":\"{filter.JsonValue}\""));
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Requests> CreateRequestAsync(RequestCreateDto requestDto)
+        {
+            var request = new Requests
+            {
+                reqId = Guid.NewGuid(),
+                rtyId = requestDto.RequestTypeId,
+                resId = requestDto.RequestStatusId,
+                createdAt = DateTime.UtcNow,
+                data = JsonSerializer.Serialize(requestDto.DynamicData)
+            };
+
+            await _unitOfWork.Repository<Requests>().AddAsync(request);
+            await _unitOfWork.SaveChangesAsync();
+            return request;
+        }
+
+        public async Task<Requests?> GetRequestByIdAsync(Guid id)
+        {
+            return await _unitOfWork.Repository<Requests>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(r => r.reqId == id);
+        }
+
+        public async Task<bool> DeleteRequestAsync(Guid id)
+        {
+            var request = await GetRequestByIdAsync(id);
+            if (request == null) return false;
+
+            _unitOfWork.Repository<Requests>().Remove(request);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<Requests>> SearchByJsonPropertyAsync(string propertyName, string value)
+        {
+            return await _unitOfWork.Repository<Requests>()
+                .AsQueryable()
+                .Where(r => r.data != null && r.data.Contains($"\"{propertyName}\":\"{value}\""))
+                .ToListAsync();
         }
     }
 }

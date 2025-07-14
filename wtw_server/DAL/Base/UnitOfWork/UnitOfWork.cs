@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using DAL.Base.Data;
 using DAL.Base.Repository;
 
@@ -28,6 +25,11 @@ namespace DAL.Base.UnitOfWork
                 _repositories[type] = new Repository<T>(_context);
             }
             return (IRepository<T>)_repositories[type];
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         // [Dispose]
