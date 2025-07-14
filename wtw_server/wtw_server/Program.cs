@@ -1,9 +1,11 @@
 using BLL;
 using DAL;
+using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Inject interfaces
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<DAL.IRequest, DAL.Request>();
 builder.Services.AddScoped<BLL.IRequest, BLL.Request>();
 

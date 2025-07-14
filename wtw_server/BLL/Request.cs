@@ -4,7 +4,7 @@ namespace BLL
 {
     public interface IRequest
     {
-        List<Requests> GetAllRequests();
+        Task<List<Requests>> GetAllRequestsAsync();
     }
 
     public class Request : IRequest
@@ -16,9 +16,10 @@ namespace BLL
             _dalRequest = dalRequest;
         }
 
-        public List<Requests> GetAllRequests()
+        public async Task<List<Requests>> GetAllRequestsAsync()
         {
-            return _dalRequest.GetAllRequests();
+            var result = await _dalRequest.GetAllRequestsAsync();
+            return result.ToList();
         }
     }
 }

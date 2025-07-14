@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entity;
 using BLL;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace wtw_server.Controllers
 {
@@ -18,9 +20,9 @@ namespace wtw_server.Controllers
         #region [ GET ]
 
         [HttpGet("GetAllRequest")]
-        public ActionResult<List<Requests>> GetAllRequest()
+        public async Task<ActionResult<List<Requests>>> GetAllRequest()
         {
-            var requests = _requestService.GetAllRequests();
+            var requests = await _requestService.GetAllRequestsAsync();
             return Ok(requests);
         }
 
