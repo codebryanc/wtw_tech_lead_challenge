@@ -36,3 +36,22 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+# This is for build Angular project
+- task: NodeTool@0
+  condition: succeeded()
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '18.x'
+
+- script: |
+    cd wtw_ui
+    npm install
+  condition: succeeded()
+  displayName: 'npm install'
+
+- script: |
+    cd wtw_ui
+    npm run build --prod
+  condition: succeeded()
+  displayName: 'Angular build'
