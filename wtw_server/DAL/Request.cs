@@ -47,7 +47,8 @@ namespace DAL
                                    data = r.data,
                                    requestTypeName = rt.name,
                                    requestStatusName = rs.name
-                               }).ToListAsync();
+                               })
+                               .ToListAsync();
             
             return result;
         }
@@ -56,9 +57,7 @@ namespace DAL
         {
             var query = _unitOfWork.Repository<Requests>().AsQueryable();
 
-            // Filter by valid JSON data first
-            query = query.WhereValidJson();
-
+            // Apply filters without JSON validation first
             if (filter.RequestTypeId.HasValue)
                 query = query.Where(r => r.rtyId == filter.RequestTypeId.Value);
 
@@ -71,25 +70,33 @@ namespace DAL
             if (filter.ToDate.HasValue)
                 query = query.Where(r => r.createdAt <= filter.ToDate.Value);
 
-            // Use efficient JSON_VALUE function instead of string contains
+            // Apply JSON filter only if specified
             if (!string.IsNullOrEmpty(filter.JsonProperty) && !string.IsNullOrEmpty(filter.JsonValue))
             {
-                query = query.WhereJsonProperty(filter.JsonProperty, filter.JsonValue);
+                query = query.Where(r => r.data != null).WhereJsonPropertyContains(filter.JsonProperty, filter.JsonValue);
             }
 
-            var result = await (from r in query
-                               join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
-                               join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
-                               select new Requests
-                               {
-                                   reqId = r.reqId,
-                                   rtyId = r.rtyId,
-                                   resId = r.resId,
-                                   createdAt = r.createdAt,
-                                   data = r.data,
-                                   requestTypeName = rt.name,
-                                   requestStatusName = rs.name
-                               }).OrderByCreationDate(true).ToListAsync();
+            IEnumerable<Requests> result = new List<Requests>();
+
+            try {
+                result = await (from r in query
+                                    join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
+                                    join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
+                                    select new Requests
+                                    {
+                                        reqId = r.reqId,
+                                        rtyId = r.rtyId,
+                                        resId = r.resId,
+                                        createdAt = r.createdAt,
+                                        data = r.data,
+                                        requestTypeName = rt.name,
+                                        requestStatusName = rs.name
+                                    }).OrderByCreationDate(true).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                var error = ex.ToString();
+            }
 
             return result;
         }
