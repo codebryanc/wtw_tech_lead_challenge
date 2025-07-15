@@ -60,8 +60,9 @@ steps:
 - script: |
     git config --global user.email "bryant_alejandro@hotmail.com"
     git config --global user.name "Azure Pipeline"
-    git remote set-url origin https://$(System.AccessToken)@github.com/codebryanc/wtw_tech_lead_challenge.git
-    git checkout -b qa origin/qa || git checkout qa
+    git fetch origin
+    git checkout develop
+    git checkout -b qa || git checkout qa
     git merge develop --no-ff -m "Auto merge from develop after successful build"
     git push origin qa
   condition: succeeded()
