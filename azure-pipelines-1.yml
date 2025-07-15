@@ -1,0 +1,57 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- qa
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+
+# This is for build .NET Solution
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# This is for Test this .NET Solution [ONLY IF BUILD WORK'S]
+- task: VSTest@2
+  condition: succeeded()
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# This is for build Angular project
+- task: NodeTool@0
+  condition: succeeded()
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '18.x'
+
+- script: |
+    cd wtw_ui
+    npm install
+  condition: succeeded()
+  displayName: 'npm install'
+
+- script: |
+    cd wtw_ui
+    npm run build --prod
+  condition: succeeded()
+  displayName: 'Angular build'
