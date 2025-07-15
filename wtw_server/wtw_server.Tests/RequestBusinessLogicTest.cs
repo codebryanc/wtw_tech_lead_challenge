@@ -4,6 +4,7 @@ using Moq;
 using BLL;
 using Entity;
 using Entity.DTOs;
+using Castle.Components.DictionaryAdapter;
 
 namespace wtw_server.Tests;
 
@@ -213,8 +214,8 @@ public class RequestBusinessLogicTest
         var vacationTypeId = new Guid("1ED88739-26A8-4F62-842C-5F8019F5B791");
         return new RequestCreateDto
         {
-            RequestTypeId = vacationTypeId,
-            RequestStatusId = _validRequestStatusId,
+            RequestTypeId = vacationTypeId.ToString(),
+            RequestStatusId = _validRequestStatusId.ToString(),
             DynamicData = new Dictionary<string, object>
             {
                 { "StartDate", "2024-01-15T00:00:00" },
@@ -230,8 +231,8 @@ public class RequestBusinessLogicTest
     {
         return new RequestCreateDto
         {
-            RequestTypeId = new Guid("753D5B16-E908-4F73-982C-F2FCAF7DB28C"),
-            RequestStatusId = _validRequestStatusId,
+            RequestTypeId = "753D5B16-E908-4F73-982C-F2FCAF7DB28C",
+            RequestStatusId = _validRequestStatusId.ToString(),
             DynamicData = new Dictionary<string, object>
             {
                 { "invalidProperty", "invalidValue" }

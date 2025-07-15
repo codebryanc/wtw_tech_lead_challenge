@@ -216,8 +216,8 @@ public class RequestUnitTest
     {
         return new RequestCreateDto
         {
-            RequestTypeId = _validRequestTypeId,
-            RequestStatusId = _validRequestStatusId,
+            RequestTypeId = _validRequestTypeId.ToString(),
+            RequestStatusId = _validRequestStatusId.ToString(),
             DynamicData = new Dictionary<string, object>
             {
                 { "employeeId", "EMP001" },
