@@ -7,6 +7,46 @@
     </button>
   </div>
 
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Search:</label>
+        <input type="text" 
+               [(ngModel)]="searchText" 
+               (input)="onFilterChange()"
+               placeholder="Search by property data...">
+      </div>
+      
+      <div class="filter-group">
+        <label>Status:</label>
+        <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
+          <option value="">All Statuses</option>
+          <option *ngFor="let status of availableStatuses" [value]="status">
+            {{ status.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Type:</label>
+        <select [(ngModel)]="typeFilter" (change)="onFilterChange()">
+          <option value="">All Types</option>
+          <option *ngFor="let type of availableTypes" [value]="type">
+            {{ type.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <button class="clear-btn" (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+    
+    <div class="results-count">
+      Showing {{ requests.length }} requests
+    </div>
+  </div>
+
   <div *ngIf="loading" class="loading-container">
     <p>Loading requests...</p>
   </div>
