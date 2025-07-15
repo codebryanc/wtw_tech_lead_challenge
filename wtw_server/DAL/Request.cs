@@ -33,7 +33,23 @@ namespace DAL
         // [Methods]
         public async Task<IEnumerable<Requests>> GetAllRequestsAsync()
         {
-            return await _unitOfWork.Repository<Requests>().GetAllAsync();
+            var query = _unitOfWork.Repository<Requests>().AsQueryable();
+            
+            var result = await (from r in query
+                               join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
+                               join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
+                               select new Requests
+                               {
+                                   reqId = r.reqId,
+                                   rtyId = r.rtyId,
+                                   resId = r.resId,
+                                   createdAt = r.createdAt,
+                                   data = r.data,
+                                   requestTypeName = rt.name,
+                                   requestStatusName = rs.name
+                               }).ToListAsync();
+            
+            return result;
         }
 
         public async Task<IEnumerable<Requests>> GetFilteredRequestsAsync(RequestFilterDto filter)
@@ -61,7 +77,21 @@ namespace DAL
                 query = query.WhereJsonProperty(filter.JsonProperty, filter.JsonValue);
             }
 
-            return await query.OrderByCreationDate(true).ToListAsync();
+            var result = await (from r in query
+                               join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
+                               join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
+                               select new Requests
+                               {
+                                   reqId = r.reqId,
+                                   rtyId = r.rtyId,
+                                   resId = r.resId,
+                                   createdAt = r.createdAt,
+                                   data = r.data,
+                                   requestTypeName = rt.name,
+                                   requestStatusName = rs.name
+                               }).OrderByCreationDate(true).ToListAsync();
+
+            return result;
         }
 
         public async Task<Requests> CreateRequestAsync(RequestCreateDto requestDto)
@@ -82,9 +112,22 @@ namespace DAL
 
         public async Task<Requests?> GetRequestByIdAsync(Guid id)
         {
-            return await _unitOfWork.Repository<Requests>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(r => r.reqId == id);
+            var result = await (from r in _unitOfWork.Repository<Requests>().AsQueryable()
+                               join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
+                               join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
+                               where r.reqId == id
+                               select new Requests
+                               {
+                                   reqId = r.reqId,
+                                   rtyId = r.rtyId,
+                                   resId = r.resId,
+                                   createdAt = r.createdAt,
+                                   data = r.data,
+                                   requestTypeName = rt.name,
+                                   requestStatusName = rs.name
+                               }).FirstOrDefaultAsync();
+
+            return result;
         }
 
         public async Task<bool> DeleteRequestAsync(Guid id)
@@ -99,12 +142,26 @@ namespace DAL
 
         public async Task<IEnumerable<Requests>> SearchByJsonPropertyAsync(string propertyName, string value)
         {
-            return await _unitOfWork.Repository<Requests>()
+            var query = _unitOfWork.Repository<Requests>()
                 .AsQueryable()
                 .WhereValidJson()
-                .WhereJsonPropertyContains(propertyName, value)
-                .OrderByCreationDate(true)
-                .ToListAsync();
+                .WhereJsonPropertyContains(propertyName, value);
+
+            var result = await (from r in query
+                               join rt in _unitOfWork.Repository<RequestTypes>().AsQueryable() on r.rtyId equals rt.rtyId
+                               join rs in _unitOfWork.Repository<RequestStatusEntity>().AsQueryable() on r.resId equals rs.resId
+                               select new Requests
+                               {
+                                   reqId = r.reqId,
+                                   rtyId = r.rtyId,
+                                   resId = r.resId,
+                                   createdAt = r.createdAt,
+                                   data = r.data,
+                                   requestTypeName = rt.name,
+                                   requestStatusName = rs.name
+                               }).OrderByCreationDate(true).ToListAsync();
+
+            return result;
         }
     }
 }

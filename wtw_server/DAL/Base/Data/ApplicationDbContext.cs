@@ -14,7 +14,7 @@ namespace DAL.Base.Data
         // [Properties]
         public DbSet<Requests> Requests { get; set; }
         public DbSet<RequestTypes> RequestTypes { get; set; }
-        public DbSet<RequestStatusEntity> Resources { get; set; }
+        public DbSet<RequestStatusEntity> RequestStatus { get; set; }
 
         // [Methods]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,9 +40,10 @@ namespace DAL.Base.Data
                 entity.Property(e => e.name).HasMaxLength(255);
             });
 
-            // Configuration for Resources entity
+            // Configuration for RequestStatus entity
             modelBuilder.Entity<RequestStatusEntity>(entity =>
             {
+                entity.ToTable("RequestStatus");
                 entity.HasKey(e => e.resId);
                 entity.Property(e => e.resId).IsRequired();
                 entity.Property(e => e.name).HasMaxLength(255);

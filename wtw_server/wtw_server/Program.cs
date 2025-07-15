@@ -19,7 +19,7 @@ builder.Services.AddScoped<BLL.IRequest, BLL.Request>();
 // [CORS Configuration]
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularApp", policy =>
+    options.AddDefaultPolicy(policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyHeader()
@@ -34,6 +34,9 @@ builder.Services.AddSwaggerGen();
 
 // [Application Build]
 var app = builder.Build();
+
+// [CORS Call]
+app.UseCors();
 
 // [Development Environment Configuration]
 if (app.Environment.IsDevelopment())
