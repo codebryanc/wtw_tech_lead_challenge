@@ -35,22 +35,16 @@ export class AllRequestComponent implements OnInit {
   loadAllRequests(): void {
     this.loading = true;
     this.error = null;
-    console.log('AllRequestComponent: Starting to load requests...');
     
     this.requestService.getAllRequests().subscribe({
       next: (data) => {
-        console.log('AllRequestComponent: Received data:', data);
         this.requests = data || [];
         this.loading = false;
       },
       error: (err) => {
-        console.error('AllRequestComponent: Error occurred:', err);
         this.error = 'Error loading requests: ' + (err.message || 'Unknown error');
         this.loading = false;
         this.requests = [];
-      },
-      complete: () => {
-        console.log('AllRequestComponent: Request completed');
       }
     });
   }
