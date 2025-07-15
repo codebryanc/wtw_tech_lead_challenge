@@ -30,3 +30,13 @@ Lo ideal es hacer un backup del ambiente actual en producción lo que nos permit
 - Si algo falla en el paso a production debemos analizar, porque ese error no se presentó en Staging y muy seguramente ahí podemos configurar staging de manera correcta
 
 Según la prueba: Podemos crear un pipeline que haga los build y una vez este build se ejecute correctamente, luego ejecute pruebas automáticas, podemos hacer el deploy a producción
+
+## Pipelines
+
+<img src="001_Pipelines.png" alt="Pipeline 1" width="60%" />
+
+<img src="002_pipelines.png" alt="Pipeline 2" width="60%" />
+
+<img src="003_Run_pipeline.png" alt="Pipeline 3" width="60%" />
+
+
