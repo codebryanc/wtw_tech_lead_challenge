@@ -1,4 +1,6 @@
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Entity
 {
     public class Requests
@@ -9,7 +11,11 @@ namespace Entity
         public Guid resId { get; set; }
         public DateTime createdAt { get; set; }
         public string? data { get; set; }
+        
+        [NotMapped]
         public string? requestStatusName { get; set; }
+        
+        [NotMapped]
         public string? requestTypeName { get; set; }
     }
 }

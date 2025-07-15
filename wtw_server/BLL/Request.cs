@@ -46,7 +46,9 @@ namespace BLL
         {
             // [Validate JSON schema based on request type]
             var jsonData = JsonSerializer.Serialize(requestDto.DynamicData);
-            var validationResult = JsonSchemaValidator.ValidateRequestData(requestDto.RequestTypeId, jsonData);
+            var validationResult = JsonSchemaValidator.ValidateRequestData(
+                string.IsNullOrEmpty(requestDto.RequestTypeId) ? Guid.Empty : Guid.Parse(requestDto.RequestTypeId), 
+                jsonData);
             
             if (validationResult != ValidationResult.Success)
             {

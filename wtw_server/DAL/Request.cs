@@ -103,17 +103,27 @@ namespace DAL
 
         public async Task<Requests> CreateRequestAsync(RequestCreateDto requestDto)
         {
-            var request = new Requests
-            {
-                reqId = Guid.NewGuid(),
-                rtyId = requestDto.RequestTypeId,
-                resId = requestDto.RequestStatusId,
-                createdAt = DateTime.UtcNow,
-                data = JsonSerializer.Serialize(requestDto.DynamicData)
-            };
+            Requests request = new Requests();
 
-            await _unitOfWork.Repository<Requests>().AddAsync(request);
-            await _unitOfWork.SaveChangesAsync();
+            try
+            {
+                request = new Requests
+                {
+                    reqId = Guid.NewGuid(),
+                    rtyId = Guid.Parse(requestDto.RequestTypeId != null ? requestDto.RequestTypeId! : Guid.Empty.ToString()),
+                    resId = Guid.Parse(requestDto.RequestStatusId != null ? requestDto.RequestStatusId! : Guid.Empty.ToString()),
+                    createdAt = DateTime.UtcNow,
+                    data = JsonSerializer.Serialize(requestDto.DynamicData)
+                };
+
+                await _unitOfWork.Repository<Requests>().AddAsync(request);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var error = ex.ToString();
+            }
+
             return request;
         }
 

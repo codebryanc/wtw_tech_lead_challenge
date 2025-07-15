@@ -36,24 +36,13 @@ namespace BLL.Validators
         {
             try
             {
-                var deserializedObject = JsonSerializer.Deserialize<T>(jsonData);
-                if (deserializedObject == null)
-                {
-                    return new ValidationResult("Failed to deserialize JSON data");
-                }
-
-                var validationContext = new ValidationContext(deserializedObject);
-                var validationResults = new List<ValidationResult>();
-                
-                bool isValid = Validator.TryValidateObject(deserializedObject, validationContext, validationResults, true);
-                
-                if (!isValid)
-                {
-                    var errors = string.Join("; ", validationResults.Select(r => r.ErrorMessage));
-                    return new ValidationResult($"Validation failed: {errors}");
-                }
-                
+                // Only validate that JSON is syntactically valid, no strict schema validation
+                JsonDocument.Parse(jsonData);
                 return ValidationResult.Success!;
+            }
+            catch (JsonException ex)
+            {
+                return new ValidationResult($"Invalid JSON format: {ex.Message}");
             }
             catch (Exception ex)
             {

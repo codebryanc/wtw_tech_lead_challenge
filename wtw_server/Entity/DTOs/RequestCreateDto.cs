@@ -6,12 +6,12 @@ namespace Entity.DTOs
     {
         // [Properties]
         [Required]
-        public Guid RequestTypeId { get; set; }
+        public string? RequestTypeId { get; set; }
         
         [Required]
-        public Guid RequestStatusId { get; set; }
+        public string? RequestStatusId { get; set; }
         
         [Required]
-        public object DynamicData { get; set; }
+        public object? DynamicData { get; set; }
     }
 }
