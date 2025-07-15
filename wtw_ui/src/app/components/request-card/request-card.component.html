@@ -1,0 +1,24 @@
+<div class="request-card">
+  <div class="card-header">
+    Request ID:
+    <h5>{{ request.reqId }}</h5>
+    <span class="created-date">{{ request.createdAt | date:'short' }}</span>
+  </div>
+  
+  <div class="card-body">
+    <div class="field-group">
+      <label>Request Status:</label>
+      <span>{{ request.requestStatusName }}</span>
+    </div>
+    
+    <div class="field-group">
+      <label>Request type:</label>
+      <span>{{ request.requestTypeName }}</span>
+    </div>
+    
+    <div class="field-group" *ngIf="request.data">
+      <label>Data:</label>
+      <div class="data-content">{{ request.data }}</div>
+    </div>
+  </div>
+</div>

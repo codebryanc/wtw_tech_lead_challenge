@@ -22,29 +22,10 @@
     </div>
 
     <div *ngIf="requests.length > 0" class="requests-grid">
-      <div class="request-card" *ngFor="let request of requests; trackBy: trackByRequestId">
-        <div class="card-header">
-          <h4>Request ID: {{ request.reqId }}</h4>
-          <span class="created-date">{{ request.createdAt | date:'short' }}</span>
-        </div>
-        
-        <div class="card-body">
-          <div class="field-group">
-            <label>Request Type ID:</label>
-            <span>{{ request.rtyId }}</span>
-          </div>
-          
-          <div class="field-group">
-            <label>Resource ID:</label>
-            <span>{{ request.resId }}</span>
-          </div>
-          
-          <div class="field-group" *ngIf="request.data">
-            <label>Data:</label>
-            <div class="data-content">{{ request.data }}</div>
-          </div>
-        </div>
-      </div>
+      <app-request-card 
+        *ngFor="let request of requests; trackBy: trackByRequestId"
+        [request]="request">
+      </app-request-card>
     </div>
   </div>
 </div>

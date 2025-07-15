@@ -3,12 +3,14 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { RequestService } from '../../service/remote/request.service';
 import { RequestsEntity } from '../../models/requestsEntity';
+import { RequestCardComponent } from '../request-card/request-card.component';
 
 @Component({
   selector: 'app-all-request',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    RequestCardComponent
   ],
   templateUrl: './all-request.component.html',
   styleUrl: './all-request.component.scss'
