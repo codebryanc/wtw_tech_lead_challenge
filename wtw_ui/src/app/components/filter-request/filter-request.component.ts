@@ -27,6 +27,9 @@ export class FilterRequestComponent implements OnInit {
   statusFilter: string = '';
   typeFilter: string = '';
   searchText: string = '';
+
+  // Common
+  minSearchLength = 3;
   
   // Available options for filters
   availableStatuses: RequestStatusEntity[] = [];
@@ -48,7 +51,7 @@ export class FilterRequestComponent implements OnInit {
 
   onFilterChange(): void {
     // Check if searchText has minimum 3 characters when present
-    const hasValidSearch = !this.searchText || this.searchText.length >= 3;
+    const hasValidSearch = !this.searchText || this.searchText.length >= this.minSearchLength;
     
     // If no filters are applied or search text is invalid, emit empty filter
     if ((!this.statusFilter && !this.typeFilter && !this.searchText) || !hasValidSearch) {
@@ -75,7 +78,7 @@ export class FilterRequestComponent implements OnInit {
     }
 
     // For search text, use JsonProperty and JsonValue (only if 3+ characters)
-    if (this.searchText && this.searchText.length >= 3) {
+    if (this.searchText && this.searchText.length >= this.minSearchLength) {
       filter.JsonProperty = 'data'; // Search in data property
       filter.JsonValue = this.searchText;
     }
