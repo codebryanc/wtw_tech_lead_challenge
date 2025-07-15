@@ -20,7 +20,7 @@
 }
 
 .refresh-btn, .retry-btn {
-  background-color: #007bff;
+  background-color: #d124b8;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -30,7 +30,7 @@
   transition: background-color 0.3s;
 
   &:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #c335ae;
   }
 
   &:disabled {
