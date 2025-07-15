@@ -16,6 +16,17 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<DAL.IRequest, DAL.Request>();
 builder.Services.AddScoped<BLL.IRequest, BLL.Request>();
 
+// [CORS Configuration]
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // [Services Configuration]
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
