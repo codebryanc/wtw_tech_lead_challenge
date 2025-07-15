@@ -25,10 +25,7 @@ namespace DAL.Extensions
         public static IQueryable<Requests> WhereJsonPropertyContains(this IQueryable<Requests> query, string propertyPath, string value)
         {
             return query.Where(r => r.data != null && 
-                EF.Functions.Like(
-                    EF.Property<string>(r, $"JSON_VALUE([data], '$.{propertyPath}')"), 
-                    $"%{value}%"
-                ));
+                r.data.Contains(value));
         }
 
         /// <summary>
@@ -37,7 +34,7 @@ namespace DAL.Extensions
         public static IQueryable<Requests> WhereValidJson(this IQueryable<Requests> query)
         {
             return query.Where(r => r.data != null && 
-                EF.Property<bool>(r, "ISJSON([data])"));
+                EF.Functions.DataLength(r.data) > 0);
         }
 
         /// <summary>
