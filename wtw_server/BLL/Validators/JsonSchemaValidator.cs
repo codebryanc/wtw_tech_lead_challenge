@@ -63,15 +63,15 @@ namespace BLL.Validators
 
         private static string GetRequestTypeName(Guid requestTypeId)
         {
-            var vacationTypeId = new Guid("0617B26B-6583-435F-B32E-35D76F70E39D");
-            var loanTypeId = new Guid("35290059-1516-4D9E-9D84-1903D7DDF3CD");
-            var permissionTypeId = new Guid("7EDE7098-092B-4816-957A-A96881CA3154");
+            var loanTypeId = new Guid("BB1DF24E-51B2-4D41-8FB8-738B64AE27F6");
+            var permissionTypeId = new Guid("F2348456-A1E0-4EF1-B777-4651B392D14D");
+            var vacationTypeId = new Guid("1ED88739-26A8-4F62-842C-5F8019F5B791");
             
             var requestTypes = new Dictionary<Guid, string>
             {
-                { vacationTypeId, "Vacation" },
                 { loanTypeId, "Loan" },
-                { permissionTypeId, "Permission" }
+                { permissionTypeId, "Permission" },
+                { vacationTypeId, "Vacation" },
             };
             
             return requestTypes.TryGetValue(requestTypeId, out var typeName) ? typeName : "Unknown";

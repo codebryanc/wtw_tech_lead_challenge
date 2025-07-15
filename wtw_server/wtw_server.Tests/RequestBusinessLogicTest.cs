@@ -210,7 +210,7 @@ public class RequestBusinessLogicTest
 
     private RequestCreateDto CreateValidVacationRequestDto()
     {
-        var vacationTypeId = new Guid("0617B26B-6583-435F-B32E-35D76F70E39D");
+        var vacationTypeId = new Guid("1ED88739-26A8-4F62-842C-5F8019F5B791");
         return new RequestCreateDto
         {
             RequestTypeId = vacationTypeId,

@@ -1,8 +1,8 @@
 -- Insert request types
 INSERT INTO RequestTypes (rtyId, Name) VALUES
-('0617B26B-6583-435F-B32E-35D76F70E39D', 'Vacation'),
-('35290059-1516-4D9E-9D84-1903D7DDF3CD', 'Loan'),
-('7EDE7098-092B-4816-957A-A96881CA3154', 'Permission');
+('BB1DF24E-51B2-4D41-8FB8-738B64AE27F6', 'Loan'),
+('F2348456-A1E0-4EF1-B777-4651B392D14D', 'Permission'),
+('1ED88739-26A8-4F62-842C-5F8019F5B791', 'Vacation');
 
 -- Insert request statuses
 INSERT INTO RequestStatus (resId, Name) VALUES
