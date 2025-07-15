@@ -7,6 +7,46 @@
     </button>
   </div>
 
+  <div class="filters-section" *ngIf="!loading && !error">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Search:</label>
+        <input type="text" 
+               [(ngModel)]="searchText" 
+               (input)="onFilterChange()"
+               placeholder="Search by property data (min 3 chars)...">
+      </div>
+      
+      <div class="filter-group">
+        <label>Status:</label>
+        <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
+          <option value="">All Statuses</option>
+          <option *ngFor="let status of availableStatuses" [value]="status.resId">
+            {{ status.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Type:</label>
+        <select [(ngModel)]="typeFilter" (change)="onFilterChange()">
+          <option value="">All Types</option>
+          <option *ngFor="let type of availableTypes" [value]="type.rtyId">
+            {{ type.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <button class="clear-btn" (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+    
+    <div class="results-count">
+      Showing {{ filteredRequests.length }} of {{ requests.length }} requests
+    </div>
+  </div>
+
   <div *ngIf="loading" class="loading-container">
     <p>Loading requests...</p>
   </div>
@@ -17,13 +57,17 @@
   </div>
 
   <div *ngIf="!loading && !error" class="requests-list">
-    <div *ngIf="requests.length === 0" class="no-requests">
+    <div *ngIf="filteredRequests.length === 0 && requests.length === 0" class="no-requests">
       <p>No requests found.</p>
     </div>
+    
+    <div *ngIf="filteredRequests.length === 0 && requests.length > 0" class="no-results">
+      <p>No requests match the current filters.</p>
+    </div>
 
-    <div *ngIf="requests.length > 0" class="requests-grid">
+    <div *ngIf="filteredRequests.length > 0" class="requests-grid">
       <app-request-card 
-        *ngFor="let request of requests; trackBy: trackByRequestId"
+        *ngFor="let request of filteredRequests; trackBy: trackByRequestId"
         [request]="request">
       </app-request-card>
     </div>

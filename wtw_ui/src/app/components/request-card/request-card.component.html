@@ -1,24 +1,32 @@
 <div class="request-card">
   <div class="card-header">
-    Request ID:
-    <h5>{{ request.reqId }}</h5>
+    
+    <h5 class="left">Request ID:
+       <div class="request-id">
+        {{ request.reqId?.toString().substring(0, 8) }}
+      </div>
+    </h5>
     <span class="created-date">{{ request.createdAt | date:'short' }}</span>
   </div>
   
   <div class="card-body">
     <div class="field-group">
-      <label>Request Status:</label>
-      <span>{{ request.requestStatusName }}</span>
+      <span [ngClass]="getStatusClass(request.requestStatusName)">{{ request.requestStatusName }}</span>
     </div>
     
     <div class="field-group">
-      <label>Request type:</label>
       <span>{{ request.requestTypeName }}</span>
     </div>
     
-    <div class="field-group" *ngIf="request.data">
-      <label>Data:</label>
-      <div class="data-content">{{ request.data }}</div>
+    <div class="data-section" *ngIf="parsedData.length > 0">
+      <div class="data-cards">
+        <div class="data-card" *ngFor="let field of parsedData" [ngClass]="'type-' + field.type">
+          <div class="data-card-header">
+            <span class="field-key">{{ field.key }}</span>
+          </div>
+          <div class="data-card-value">{{ field.formattedValue }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

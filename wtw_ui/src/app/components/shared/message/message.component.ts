@@ -88,7 +88,7 @@ export class MessageComponent {
 
             this._messageService.showError(action.messageError);
             
-            console.log(action.consoleLogFail);
+            this._toolsService.instrumentation(action.consoleLogFail);
           }
         });
       }
@@ -118,7 +118,7 @@ export class MessageComponent {
             }
           }
           else {
-            console.log(action.consoleLogFail);
+            this._toolsService.instrumentation(action.consoleLogFail);
           }
         });
       }

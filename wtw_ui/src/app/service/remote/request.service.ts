@@ -24,29 +24,29 @@ export class RequestService {
   public getFilteredRequests(filter: RequestFilterDto): Observable<RequestsEntity[]> {
     const queryParams = new URLSearchParams();
 
-    if (filter.rtyId)
-    { 
-      queryParams.append('rtyId', filter.rtyId); 
+    // Backend expects RequestTypeId and RequestStatusId
+    if (filter.RequestTypeId) {
+      queryParams.append('RequestTypeId', filter.RequestTypeId);
     }
     
-    if (filter.resId)
-    { 
-      queryParams.append('resId', filter.resId); 
+    if (filter.RequestStatusId) {
+      queryParams.append('RequestStatusId', filter.RequestStatusId);
     }
     
-    if (filter.createdFrom)
-    { 
-      queryParams.append('createdFrom', filter.createdFrom.toISOString()); 
+    if (filter.FromDate) {
+      queryParams.append('FromDate', filter.FromDate.toISOString());
     }
     
-    if (filter.createdTo)
-    { 
-      queryParams.append('createdTo', filter.createdTo.toISOString()); 
+    if (filter.ToDate) {
+      queryParams.append('ToDate', filter.ToDate.toISOString());
     }
     
-    if (filter.data)
-    { 
-      queryParams.append('data', filter.data); 
+    if (filter.JsonProperty) {
+      queryParams.append('JsonProperty', filter.JsonProperty);
+    }
+    
+    if (filter.JsonValue) {
+      queryParams.append('JsonValue', filter.JsonValue);
     }
     
     const url = `${environment.aspNet}${this.requestController}/GetFiltered?${queryParams.toString()}`;
