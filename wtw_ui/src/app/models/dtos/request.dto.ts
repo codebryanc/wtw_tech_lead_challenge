@@ -4,6 +4,12 @@ export interface RequestFilterDto {
   createdFrom?: Date;
   createdTo?: Date;
   data?: string;
+  RequestTypeId?: string;
+  RequestStatusId?: string;
+  FromDate?: Date;
+  ToDate?: Date;
+  JsonProperty?: string;
+  JsonValue?: string;
 }
 
 export interface RequestCreateDto {
