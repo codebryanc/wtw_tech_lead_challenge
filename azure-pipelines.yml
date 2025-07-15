@@ -21,6 +21,8 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+
+# This is for build .NET Solution
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -28,7 +30,9 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+# This is for Test this .NET Solution [ONLY IF BUILD WORK'S]
 - task: VSTest@2
+  condition: succeeded()
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
