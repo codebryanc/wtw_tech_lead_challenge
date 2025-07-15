@@ -1,0 +1,52 @@
+.button{
+    justify-content: flex-end;
+}
+
+.message{
+    margin: 0 1px;
+    height: 19%;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.info {
+    color: #818182;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+}
+
+.alert {
+    color: #818182;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+}
+
+.error{
+    color: #C51162;
+}
+
+.success {
+    color: #818182;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+}
+
+.infoButton{
+    color: #006c5f;
+}
+
+.alertButton{
+    color: #29b6fa;
+}
+
+.errorButton{
+    color: #818182;
+}
+
+.successButton{
+    color: #006c5f;
+}
+
+.btnAction {
+    width: 150px;
+}
