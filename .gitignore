@@ -1,14 +1,15 @@
 # Build results
-wtw_server/BLL/bin/
-wtw_server/BLL/obj/
-wtw_server/DAL/bin/
-wtw_server/DAL/obj/
-wtw_server/Entity/bin/
-wtw_server/Entity/obj/
-wtw_server/Tools/bin/
-wtw_server/Tools/obj/
-wtw_server/wtw_server/bin/
-wtw_server/wtw_server/obj/
+**/bin/
+**/obj/
+**/out/
+**/Bin/
+**/Obj/
+
+# Test Coverage Results
+**/TestResults/
+**/coverage/
+*.coverage
+*.coveragexml
 
 # Visual Studio
 .vs/
@@ -17,12 +18,24 @@ wtw_server/wtw_server/obj/
 
 # NuGet packages
 packages/
+.nuget/
 
 # User-specific files
 *.csproj.user
 *.user
 *.userosscache
 *.sln.docstates
+*.suo
+*.cache
+
+# Environment and Configuration files
+appsettings.local.json
+appsettings.*.local.json
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
 
 # Visual Studio Code
 .vscode/
@@ -190,3 +203,40 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Database files (exclude local development databases)
+*.db
+*.sqlite
+*.sqlite3
+localdb/
+App_Data/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Security and secrets (important for production)
+secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+connectionstrings.json
+
+# Application specific
+uploads/
+temp/
+logs/
+wwwroot/uploads/

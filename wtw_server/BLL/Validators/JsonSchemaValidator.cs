@@ -63,12 +63,15 @@ namespace BLL.Validators
 
         private static string GetRequestTypeName(Guid requestTypeId)
         {
-            // Here is empty because the test is probably change dynamically 
+            var vacationTypeId = new Guid("0617B26B-6583-435F-B32E-35D76F70E39D");
+            var loanTypeId = new Guid("35290059-1516-4D9E-9D84-1903D7DDF3CD");
+            var permissionTypeId = new Guid("7EDE7098-092B-4816-957A-A96881CA3154");
+            
             var requestTypes = new Dictionary<Guid, string>
             {
-                { Guid.Empty, "Vacation" },
-                { Guid.Empty, "Loan" },
-                { Guid.Empty, "Permission" }
+                { vacationTypeId, "Vacation" },
+                { loanTypeId, "Loan" },
+                { permissionTypeId, "Permission" }
             };
             
             return requestTypes.TryGetValue(requestTypeId, out var typeName) ? typeName : "Unknown";

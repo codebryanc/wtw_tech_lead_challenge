@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{92DABCEF-BEE5-4945-8D43-1DF7B17C200C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtw_server.Tests", "wtw_server.Tests\wtw_server.Tests.csproj", "{96AAF6AA-D469-43BD-8F87-19E3FCC872BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{92DABCEF-BEE5-4945-8D43-1DF7B17C200C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92DABCEF-BEE5-4945-8D43-1DF7B17C200C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92DABCEF-BEE5-4945-8D43-1DF7B17C200C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96AAF6AA-D469-43BD-8F87-19E3FCC872BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96AAF6AA-D469-43BD-8F87-19E3FCC872BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96AAF6AA-D469-43BD-8F87-19E3FCC872BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96AAF6AA-D469-43BD-8F87-19E3FCC872BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
