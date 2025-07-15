@@ -1,59 +1,111 @@
-# WtwUi
+# WTW UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+Aplicación web desarrollada con Angular 19 para la gestión de requests y reportes.
 
-## Development server
+## Prerrequisitos
 
-To start a local development server, run:
+Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
+- **Node.js** (versión 18 o superior)
+- **npm** (viene incluido con Node.js)
+- **Angular CLI** (versión 19)
+
+## Instalación
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone <repository-url>
+   cd wtw_ui
+   ```
+
+2. **Instala las dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Instala Angular CLI globalmente (si no lo tienes):**
+   ```bash
+   npm install -g @angular/cli
+   ```
+
+## Ejecutar el proyecto localmente
+
+### Modo desarrollo
+```bash
+npm start
+```
+o
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La aplicación estará disponible en `http://localhost:4200`
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### Modo build y watch
 ```bash
-ng generate component component-name
+npm run watch
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+### Compilar para producción
 ```bash
-ng generate --help
+npm run build
 ```
 
-## Building
-
-To build the project run:
-
+### Ejecutar servidor SSR
 ```bash
-ng build
+npm run serve:ssr:wtw_ui
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Ejecutar pruebas
 
 ```bash
-ng test
+npm test
 ```
 
-## Running end-to-end tests
+## Estructura del proyecto
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+src/
+├── app/
+│   ├── components/          # Componentes de la aplicación
+│   │   ├── all-request/     # Componente para mostrar todas las requests
+│   │   ├── filter-request/  # Componente para filtrar requests
+│   │   ├── header/          # Componente de header
+│   │   ├── home/           # Componente home
+│   │   ├── new-request/    # Componente para crear nuevas requests
+│   │   ├── request-card/   # Componente tarjeta de request
+│   │   └── shared/         # Componentes compartidos
+│   ├── config/             # Configuración de la aplicación
+│   ├── models/             # Modelos y DTOs
+│   ├── route/              # Configuración de rutas
+│   └── service/            # Servicios
+│       ├── common/         # Servicios comunes
+│       └── remote/         # Servicios para APIs remotas
+├── assets/                 # Recursos estáticos
+├── environment/            # Variables de entorno
+└── styles.scss            # Estilos globales
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Tecnologías utilizadas
 
-## Additional Resources
+- **Angular 19** - Framework principal
+- **Angular Material** - Componentes UI
+- **RxJS** - Programación reactiva
+- **TypeScript** - Lenguaje de desarrollo
+- **Jasmine & Karma** - Testing
+- **Express** - Servidor para SSR
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Scripts disponibles
+
+- `npm start` - Ejecuta la aplicación en modo desarrollo
+- `npm run build` - Compila la aplicación para producción
+- `npm run watch` - Compila y observa cambios en modo desarrollo
+- `npm test` - Ejecuta las pruebas unitarias
+- `npm run serve:ssr:wtw_ui` - Ejecuta el servidor SSR
+
+## Contribuir
+
+1. Crear un branch para tu feature
+2. Realizar los cambios necesarios
+3. Ejecutar las pruebas
+4. Crear un pull request
