@@ -1,0 +1,21 @@
+<h3 mat-dialog-title>{{data.type}}</h3>
+<mat-dialog-content class="message" [ngClass]="data.class">{{data.message}}</mat-dialog-content>
+<mat-dialog-actions class="button" [ngClass]="data.classButton">
+  
+  <!-- By default -->
+  <div *ngIf="data.actions == undefined">
+    <button mat-button mat-dialog-close>OK</button>
+  </div>
+
+  <!-- Target component actions -->
+  <div *ngIf="data.actions">
+    <button
+      mat-button
+      *ngFor="let action of data.actions"
+      (click)="launchAction(action)"
+      [ngClass]="action.class">
+      {{action.name}}
+    </button>
+  </div>
+
+</mat-dialog-actions>

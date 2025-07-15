@@ -1,0 +1,50 @@
+<div class="all-requests-container">
+  <div class="header-section">
+    <h2>All Requests</h2>
+    <button class="refresh-btn" (click)="refreshRequests()" [disabled]="loading">
+      <span *ngIf="!loading">Refresh</span>
+      <span *ngIf="loading">Loading...</span>
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <p>Loading requests...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button class="retry-btn" (click)="refreshRequests()">Retry</button>
+  </div>
+
+  <div *ngIf="!loading && !error" class="requests-list">
+    <div *ngIf="requests.length === 0" class="no-requests">
+      <p>No requests found.</p>
+    </div>
+
+    <div *ngIf="requests.length > 0" class="requests-grid">
+      <div class="request-card" *ngFor="let request of requests; trackBy: trackByRequestId">
+        <div class="card-header">
+          <h4>Request ID: {{ request.reqId }}</h4>
+          <span class="created-date">{{ request.createdAt | date:'short' }}</span>
+        </div>
+        
+        <div class="card-body">
+          <div class="field-group">
+            <label>Request Type ID:</label>
+            <span>{{ request.rtyId }}</span>
+          </div>
+          
+          <div class="field-group">
+            <label>Resource ID:</label>
+            <span>{{ request.resId }}</span>
+          </div>
+          
+          <div class="field-group" *ngIf="request.data">
+            <label>Data:</label>
+            <div class="data-content">{{ request.data }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -240,3 +240,39 @@ uploads/
 temp/
 logs/
 wwwroot/uploads/
+
+# Angular specific files
+# Compiled output
+dist/
+out-tsc/
+
+# Angular specific
+.angular/
+.angular/cache/
+
+# Logs and debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compiled JavaScript files in Angular context
+*.js
+*.js.map
+
+# Compiled CSS files in Angular context
+*.css
+*.css.map
+
+# Optional NPM cache directory
+.npm/
+
+# Output of ng-packagr
+# dist/ (already covered above)
+
+# Temporary Angular CLI files
+.sass-cache/
+.bower_components/
+
+# Build artifact files
+*.gz
+*.br
