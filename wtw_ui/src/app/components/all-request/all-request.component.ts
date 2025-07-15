@@ -5,15 +5,19 @@ import { RequestService } from '../../service/remote/request.service';
 import { RequestsEntity } from '../../models/requestsEntity';
 import { RequestCardComponent } from '../request-card/request-card.component';
 import { FilterRequestComponent } from '../filter-request/filter-request.component';
+import { NewRequestComponent } from '../new-request/new-request.component';
 import { RequestFilterDto } from '../../models/dtos/request.dto';
 
 @Component({
   selector: 'app-all-request',
   standalone: true,
   imports: [
+    // Common
     CommonModule,
+    // Components
     RequestCardComponent,
-    FilterRequestComponent
+    FilterRequestComponent,
+    NewRequestComponent
   ],
   templateUrl: './all-request.component.html',
   styleUrl: './all-request.component.scss'
@@ -24,6 +28,7 @@ export class AllRequestComponent implements OnInit {
   filteredRequests: RequestsEntity[] = [];
   loading: boolean = false;
   error: string | null = null;
+  showNewRequest: boolean = false;
   
   constructor(
     private _requestService: RequestService,
@@ -84,5 +89,19 @@ export class AllRequestComponent implements OnInit {
 
   onFiltersCleared(): void {
     this.filteredRequests = [...this.requests];
+  }
+
+  // New Request methods
+  showNewRequestForm(): void {
+    this.showNewRequest = true;
+  }
+
+  hideNewRequestForm(): void {
+    this.showNewRequest = false;
+  }
+
+  onRequestCreated(): void {
+    this.showNewRequest = false;
+    this.refreshRequests(); // Reload requests to show the new one
   }
 }
