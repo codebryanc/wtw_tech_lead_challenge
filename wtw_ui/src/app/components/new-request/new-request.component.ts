@@ -152,7 +152,6 @@ export class NewRequestComponent implements OnInit {
     this.properties.forEach(property => {
       let value = property.value;
       
-      // Convert values based on type
       switch (property.type) {
         case 'number':
           value = parseInt(value, 10);
@@ -163,16 +162,15 @@ export class NewRequestComponent implements OnInit {
         case 'date':
           value = new Date(value).toISOString();
           break;
-        // text remains as string
       }
       
       dataObject[property.key] = value;
     });
 
     const createDto: RequestCreateDto = {
-      rtyId: this.selectedTypeId,
-      resId: this.selectedStatusId,
-      data: Object.keys(dataObject).length > 0 ? JSON.stringify(dataObject) : undefined
+      RequestTypeId: this.selectedTypeId,
+      RequestStatusId: this.selectedStatusId,
+      DynamicData: Object.keys(dataObject).length > 0 ? dataObject : {}
     };
 
     this._requestService.createRequest(createDto).subscribe({

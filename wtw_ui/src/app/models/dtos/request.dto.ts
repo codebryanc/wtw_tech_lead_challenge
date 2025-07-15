@@ -1,9 +1,4 @@
-export interface RequestFilterDto {
-  rtyId?: string;
-  resId?: string;
-  createdFrom?: Date;
-  createdTo?: Date;
-  data?: string;
+export interface RequestFilterDto {  
   RequestTypeId?: string;
   RequestStatusId?: string;
   FromDate?: Date;
@@ -13,7 +8,7 @@ export interface RequestFilterDto {
 }
 
 export interface RequestCreateDto {
-  rtyId: string;
-  resId: string;
-  data?: string;
+  RequestTypeId?: string;
+  RequestStatusId?: string;
+  DynamicData?: any;
 }
