@@ -6,6 +6,6 @@ INSERT INTO RequestTypes (rtyId, Name) VALUES
 
 -- Insert request statuses
 INSERT INTO RequestStatus (resId, Name) VALUES
-(NEWID(), 'Pending'),
-(NEWID(), 'Approved'),
-(NEWID(), 'Rejected');
+('9B484C2A-3D94-4C40-BC12-E61F3A8B0302', 'Approved'),
+('580BB21A-9624-48AE-B21B-34C4FF480551', 'Pending'),
+('2307877F-BE56-4756-819E-DDF647AFEE85', 'Rejected');
