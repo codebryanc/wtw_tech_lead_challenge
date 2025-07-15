@@ -1,0 +1,142 @@
+<div class="new-request-container">
+  <div class="header-section">
+    <h2>Create New Request</h2>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #requestForm="ngForm">
+    <!-- Type and Status Selection -->
+    <div class="form-section">
+      <h3>Request Details</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="requestType">Request Type *</label>
+          <select 
+            id="requestType"
+            [(ngModel)]="selectedTypeId" 
+            (change)="onSelectionChange()"
+            name="requestType"
+            class="form-control"
+            required>
+            <option value="">Select Request Type</option>
+            <option *ngFor="let type of availableTypes" [value]="type.rtyId">
+              {{ type.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="requestStatus">Request Status *</label>
+          <select 
+            id="requestStatus"
+            [(ngModel)]="selectedStatusId" 
+            (change)="onSelectionChange()"
+            name="requestStatus"
+            class="form-control"
+            required>
+            <option value="">Select Request Status</option>
+            <option *ngFor="let status of availableStatuses" [value]="status.resId">
+              {{ status.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Properties Section -->
+    <div class="form-section">
+      <div class="properties-header">
+        <h3>Custom Properties</h3>
+        <button 
+          type="button" 
+          class="add-property-btn"
+          (click)="addProperty()"
+          [disabled]="properties.length >= maxProperties">
+          Add Property ({{ properties.length }}/{{ maxProperties }})
+        </button>
+      </div>
+
+      <div class="properties-list" *ngIf="properties.length > 0">
+        <div 
+          *ngFor="let property of properties; let i = index"
+          class="property-item"
+          [class.invalid]="!property.isValid">
+          
+          <div class="property-header">
+            <span class="property-number">Property {{ i + 1 }}</span>
+            <button 
+              type="button" 
+              class="remove-property-btn"
+              (click)="removeProperty(i)"
+              title="Remove property">
+              ×
+            </button>
+          </div>
+
+          <div class="property-form">
+            <div class="property-key">
+              <label>Name *</label>
+              <input 
+                type="text"
+                [(ngModel)]="property.key"
+                (input)="onPropertyChange(i)"
+                [name]="'propertyKey_' + i"
+                class="form-control"
+                placeholder="Enter property name"
+                required>
+            </div>
+
+            <div class="property-type">
+              <label>Type *</label>
+              <select 
+                [(ngModel)]="property.type"
+                (change)="onPropertyTypeChange(i)"
+                [name]="'propertyType_' + i"
+                class="form-control">
+                <option *ngFor="let type of propertyTypes" [value]="type.value">
+                  {{ type.label }}
+                </option>
+              </select>
+            </div>
+
+            <div class="property-value">
+              <label>Value *</label>
+              <input 
+                [type]="getPropertyInputType(property.type)"
+                [step]="getPropertyInputStep(property.type)"
+                [(ngModel)]="property.value"
+                (input)="onPropertyChange(i)"
+                [name]="'propertyValue_' + i"
+                class="form-control"
+                [placeholder]="'Enter ' + property.type + ' value'"
+                required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-properties" *ngIf="properties.length === 0">
+        <p>No custom properties added. Click "Add Property" to add up to {{ maxProperties }} properties.</p>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn-secondary"
+        (click)="resetForm()"
+        [disabled]="isSubmitting">
+        Reset
+      </button>
+      
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="!isFormValid || isSubmitting">
+        <span *ngIf="!isSubmitting">Create Request</span>
+        <span *ngIf="isSubmitting">Creating...</span>
+      </button>
+    </div>
+  </form>
+</div>

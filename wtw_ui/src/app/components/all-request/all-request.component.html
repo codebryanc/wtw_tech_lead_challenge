@@ -1,46 +1,34 @@
 <div class="all-requests-container">
   <div class="header-section">
     <h2>All Requests</h2>
-    <button class="refresh-btn" (click)="refreshRequests()" [disabled]="loading">
-      <span *ngIf="!loading">Refresh</span>
-      <span *ngIf="loading">Loading...</span>
-    </button>
+    <div class="header-actions">
+      <button class="new-request-btn" (click)="showNewRequestForm()" type="button">
+        New Request
+      </button>
+      <button class="refresh-btn" (click)="refreshRequests()" [disabled]="loading">
+        <span *ngIf="!loading">Refresh</span>
+        <span *ngIf="loading">Loading...</span>
+      </button>
+    </div>
   </div>
 
-  <div class="filters-section" *ngIf="!loading && !error">
-    <div class="filter-row">
-      <div class="filter-group">
-        <label>Search:</label>
-        <input type="text" 
-               [(ngModel)]="searchText" 
-               (input)="onFilterChange()"
-               placeholder="Search by property data (min 3 chars)...">
-      </div>
-      
-      <div class="filter-group">
-        <label>Status:</label>
-        <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
-          <option value="">All Statuses</option>
-          <option *ngFor="let status of availableStatuses" [value]="status.resId">
-            {{ status.name }}
-          </option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <label>Type:</label>
-        <select [(ngModel)]="typeFilter" (change)="onFilterChange()">
-          <option value="">All Types</option>
-          <option *ngFor="let type of availableTypes" [value]="type.rtyId">
-            {{ type.name }}
-          </option>
-        </select>
-      </div>
-      
-      <div class="filter-group">
-        <button class="clear-btn" (click)="clearFilters()">Clear Filters</button>
-      </div>
+  <!-- New Request Form -->
+  <div *ngIf="showNewRequest" class="new-request-section">
+    <div class="new-request-header">
+      <h3>Create New Request</h3>
+      <button class="close-btn" (click)="hideNewRequestForm()" type="button">
+        ×
+      </button>
     </div>
+    <app-new-request (requestCreated)="onRequestCreated()"></app-new-request>
+  </div>
+
+  <!-- Existing content - only show when not creating new request -->
+  <div *ngIf="!loading && !error && !showNewRequest">
+    <app-filter-request 
+      (filtersChanged)="onFiltersChanged($event)"
+      (filtersCleared)="onFiltersCleared()">
+    </app-filter-request>
     
     <div class="results-count">
       Showing {{ filteredRequests.length }} of {{ requests.length }} requests
@@ -56,7 +44,7 @@
     <button class="retry-btn" (click)="refreshRequests()">Retry</button>
   </div>
 
-  <div *ngIf="!loading && !error" class="requests-list">
+  <div *ngIf="!loading && !error && !showNewRequest" class="requests-list">
     <div *ngIf="filteredRequests.length === 0 && requests.length === 0" class="no-requests">
       <p>No requests found.</p>
     </div>
