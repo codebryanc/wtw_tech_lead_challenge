@@ -3,5 +3,5 @@ export const environment = {
     production: false,
     environmentName: 'Development',
     // Development
-    aspNet: 'http://192.168.1.105:7063/',
+    aspNet: 'http://192.168.1.27:7063/',
 };

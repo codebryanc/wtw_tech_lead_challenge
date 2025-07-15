@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable,  of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { LoadingService } from '../../service/common/loading.service';
-import { ToolService } from '../../service/common/tool.service';
 import { HandlerUtilService } from './handler-util.service';
-import { ResultEntity } from '../../models/resultEntity';
+import { ToolService } from '../../common/tool.service';
+import { LoadingService } from '../../common/loading.service';
+import { ResultEntity } from '../../../models/resultEntity';
 
 @Injectable({
   providedIn: 'root'
@@ -111,7 +111,7 @@ export class HandlerService {
   }
 
   // DELETE
-  public baseDELETE(request: any, url: string, method: string) : Observable<any> {
+  public baseDELETEWithBody(request: any, url: string, method: string) : Observable<any> {
     if(this._toolService.isExists(request)){
       
       let body = JSON.stringify(request);
@@ -124,6 +124,13 @@ export class HandlerService {
     else {
       return null;
     }
+  }
+
+  public baseDELETEWithoutBody(url: string, method: string) : Observable<any> {
+    return this._http.delete<any>(url)
+      .pipe(
+        catchError(this.handleError<any>(method))
+      );
   }
 
   // [Functions]
